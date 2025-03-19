@@ -4,12 +4,12 @@
 
 ## To download to ~/TwistUP 
 ```
-git clone https://github.com/phoenixbyrd/TwistUP-OS
+git clone https://github.com/grayduck1/TwistUP-OS3
 ```
 ## To download to ~/patcher
 ```
 gio trash ~/patcher
-git clone https://github.com/phoenixbyrd/TwistUP-OS patcher
+git clone https://github.com/grayduck1/TwistUP-OS3 patcher
 ```
 ## Enter directory:
 ```
