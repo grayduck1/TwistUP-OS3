@@ -1,16 +1,8 @@
 #!/bin/bash
 
-#Hello Tommy21
-
-# list of patch versions: https://twisteros.com/Patches/latest.txt
-# version checker: https://twisteros.com/Patches/checkversion.sh
-# simple bash updater script: https://github.com/setLillie/Twister-OS-Patcher/blob/master/patch.sh
-# View everything under /Patches/: https://github.com/phoenixbyrd/TwisterOS/tree/master/Patches
-# file containing all the patch notes: https://twisteros.com/Patches/message.txt
-
-#example patch url: https://twisteros.com/Patches/TwisterOSv1-9-1Patch.zip
-
-#twistver format: "Twister OS version 1.8.5"
+# file containing all the patch notes: https://grayduck1.github.io/Patches/TwisterOS/message.txt
+# example patch url: https://grayduck1.github.io/Patches/TwisterOS/Patches/TwisterOSv3-0-0Patch.run
+# twistver format: "Twister OS version 3.0.0"
 
 DIRECTORY="$(dirname "$(readlink -f "$0")")"
 echo "$DIRECTORY"
@@ -26,7 +18,7 @@ getchangelog() {
   #downloads the changelog for a specified patch.
   #usage: getchangelog 1.9.1
   #outputs the full changelog in plain-text
-  messagetxt="$(wget -qO- https://twisteros.com/Patches/TwisterOS/message.txt)"
+  messagetxt="$(wget -qO- https://grayduck1.github.io/Patches/TwisterOS/message.txt)"
   changelog="$(echo "$messagetxt" | sed -e "0,/Version $1 patch notes:/d" | sed -e "/patch notes:/q" | head -n -2)"
   firstline="$(echo "$messagetxt" | grep "Version $1 patch notes:")"
   echo -e "${firstline}\n${changelog}"
@@ -46,7 +38,7 @@ patch2url() {
   #get URL to download, when given a patch number
   #usage: patch2url 1.9.1
   #outputs the full URL to the patch
-  URL="$(wget -qO- https://twisteros.com/Patches/TwisterOS/URLs | grep "$1" | awk '{print $2}')"
+  URL="$(wget -qO- https://grayduck1.github.io/Patches/TwisterOS/URLs | grep "$1" | awk '{print $2}')"
   if [ $? != 0 ] || [ -z "$URL" ];then
     error "Failed to determine URL for patch ${1}!"
   fi
@@ -214,7 +206,7 @@ fi
 localversion="$(twistver | awk 'NF>1{print $NF}')"
 echo "current version: $localversion"
 
-patchlist="$(wget -qO- https://twisteros.com/Patches/TwisterOS/URLs)"
+patchlist="$(wget -qO- https://grayduck1.github.io/Patches/TwisterOS/URLs)"
 if [ $? != 0 ] || [ -z "$patchlist" ];then
   error "Failed to download the patch list! Are you connected to the Internet?"
 fi
@@ -239,12 +231,12 @@ fi
 
 if [ ! -f "${DIRECTORY}/no-update-patcher" ];then
   localhash="$(git rev-parse HEAD)"
-  latesthash="$(git ls-remote https://github.com/phoenixbyrd/TwistUP-OS HEAD | awk '{print $1}')"
+  latesthash="$(git ls-remote https://github.com/grayduck1/TwistUP-OS3 HEAD | awk '{print $1}')"
   if [ "$localhash" != "$latesthash" ] && [ ! -z "$latesthash" ] && [ ! -z "$localhash" ];then
     echo "TwistUP is out of date. Downloading new version..."
     gio trash "$DIRECTORY"
     cd "$HOME"
-    git clone https://github.com/phoenixbyrd/TwistUP-OS "$DIRECTORY"
+    git clone https://github.com/grayduck1/TwistUP-OS3 "$DIRECTORY"
     cd "$DIRECTORY"
   fi
 fi
