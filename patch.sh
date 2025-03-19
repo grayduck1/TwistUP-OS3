@@ -196,7 +196,7 @@ fi
 if [ "$(readlink -f /usr/local/bin/twistpatch)" == '/home/pi/patcher/src/start.sh' ] || [ ! -f /usr/local/bin/twistpatch ];then
   echo "Created /usr/local/bin/twistpatch."
   sudo rm -f /usr/local/bin/twistpatch 2>/dev/null
-  sudo ln -s "$0" /usr/local/bin/twistpatch
+  sudo ln -s ~/patcher/patch.sh /usr/local/bin/twistpatch
 fi
 
 #ensure twistver exists
